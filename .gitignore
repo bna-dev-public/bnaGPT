@@ -1,3 +1,6 @@
+# vs code
+.vscode/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -7,6 +10,8 @@ __pycache__/
 *.so
 
 # Distribution / packaging
+.flake8
+test.ipynb
 .Python
 build/
 develop-eggs/
