@@ -10,7 +10,7 @@ chat_engine = SimpleChatEngine()
 
 # This class represents a simple chatbot in Python.
 @dataclass(slots=True)
-class SimpleChatbot:
+class SimpleChatbotView:
 
     # default values for the page
     page_title: str = field(default="bnaGPT")
@@ -42,7 +42,7 @@ class SimpleChatbot:
 
     # Streamlit has a session element that you can create and save variables in it
     # So we need to update it once our main runs in a loop
-    def update_session(self):
+    def initialize_session(self):
 
         # we can create a variable called messages
         # to save and output the messages
