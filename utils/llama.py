@@ -1,18 +1,18 @@
 from dataclasses import dataclass, field
+from typing import Dict
 from llama_index.llms.groq import Groq
 from llama_index.core.chat_engine import SimpleChatEngine
-from settings import DEFAULT_LLM_NAME, DEFAULT_LLM_PROVIDER, GROQ_API_KEY
+from llama_index.agent.openai import OpenAIAgent
+from llama_index.core.memory import ChatMemoryBuffer
+
+# from llama_index.core.storage.chat_store import SimpleChatStore
+from settings import GROQ_API_KEY, DEFAULT_LLM
 from view.general import print_error
 
 
 @dataclass(slots=True)
 class Llama:
-    llm: dict = field(
-        default_factory=lambda: {
-            "llm_provider": DEFAULT_LLM_PROVIDER,
-            "llm_name": DEFAULT_LLM_NAME,
-        }
-    )
+    llm: Dict[str, str] = field(default_factory=lambda: DEFAULT_LLM)
 
     def create_llm(self):
         if self.llm.get("llm_provider") == "groq":
@@ -35,3 +35,14 @@ class Llama:
         simple_chat_engine = self.create_simple_chat_engine()
         stream = simple_chat_engine.stream_chat(user_input)
         return stream
+
+    def create_openAI_agent(
+        self,
+        memory: ChatMemoryBuffer = ChatMemoryBuffer.from_defaults(),
+    ) -> OpenAIAgent:
+        llm = self.create_llm()
+        agent = OpenAIAgent.from_tools(
+            llm=llm,
+            memory=memory,
+        )
+        return agent
