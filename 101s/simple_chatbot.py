@@ -27,7 +27,7 @@ def parse_groq_stream(stream):
 # Configuring the chatbot using streamlit
 
 # Page title
-st.title("bnaGPT - Chat Simples")
+st.title("bnaGPT - Simple Chatbot")
 
 # Streamlit has a session element that you can create and save variables in it
 

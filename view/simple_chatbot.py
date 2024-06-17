@@ -3,6 +3,7 @@ import streamlit as st
 from utils.loaders import load_image
 from controller.simple_chatbot import SimpleChatEngine
 from models.messages import StreamingMessage, Message
+from llama_index.core.base.llms.types import MessageRole
 
 
 chat_engine = SimpleChatEngine()
@@ -59,15 +60,15 @@ class SimpleChatbotView:
     # get user input
     def handle_chat_input(self, chat_input):
         if prompt := chat_input:
-            message = Message("user", prompt)
+            message = Message(MessageRole.USER, prompt)
             st.session_state.messages.append(message.create_message())
 
             # printing the user message
-            with st.chat_message("user"):
+            with st.chat_message(MessageRole.USER):
                 st.markdown(prompt)
 
             # now creating the assistant response
-            with st.chat_message("assistant"):
+            with st.chat_message(MessageRole.ASSISTANT):
                 # getting the streaming response from controller
                 streaming_response = StreamingMessage(
                     chat_engine.get_simple_chat_response(prompt)
@@ -75,5 +76,7 @@ class SimpleChatbotView:
                 # printing response
                 response = st.write_stream(streaming_response.stream_message())
             # saving response
-            message = Message("assistant", str(response))
-            st.session_state.messages.append({"role": "assistant", "content": response})
+            message = Message(MessageRole.ASSISTANT, str(response))
+            st.session_state.messages.append(
+                {"role": MessageRole.ASSISTANT, "content": response}
+            )
