@@ -9,6 +9,9 @@ __pycache__/
 # C extensions
 *.so
 
+# conversations file
+conversations/saved_conversations.json
+
 # Distribution / packaging
 .flake8
 test.ipynb
